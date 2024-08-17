@@ -1,0 +1,57 @@
+{
+    "name": "FFXIWeatherForecast",
+    "version": "0.1.0",
+    "author": [
+        "Shocks"
+    ],
+    "url": "none",
+    "descriptionmsg": "weatherforecast-desc",
+    "license-name": "MIT",
+    "type": "other",
+    "AutoloadClasses": {
+        "SpecialWeatherForecast": "includes/WeatherModel.php",
+        "WeatherModel": "includes/WeatherModel.php",
+        "ExclusionsHelper": "includes/ExclusionsHelper.php",
+        "ParserHelper": "includes/ParserHelper.php",
+        "DataModel": "includes/DataModel.php",
+        "DBConnection": "includes/DBConnection.php"
+	},
+    "SpecialPages": {
+        "WeatherForecast": "SpecialWeatherForecast"
+    },
+    "MessagesDirs": {
+        "WeatherForecast": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+        "WeatherForecastAlias": "i18n/WeatherForecast.alias.php"
+	},
+	"ResourceModules": {
+		"inputHandler" : {
+			"localBasePath": "includes/",
+			"remoteExtPath": "WeatherForecast/includes/",
+			"packageFiles": [
+				"inputHandler.js"
+			],
+            "dependencies": [
+				"oojs-ui-core"
+			],
+			"styles": [
+				"special.css"
+			]
+		}
+	},
+    "Hooks": {
+        "BeforePageDisplay": "SpecialWeatherForecast::onBeforePageDisplay",
+        "ParserFirstCallInit": "WeatherModel::onParserInit"
+    },
+    "manifest_version": 2,
+    "requires": {
+        "MediaWiki": ">= 1.39.0",
+        "platform": {
+            "php": ">= 5.6"
+        }
+
+    }
+}

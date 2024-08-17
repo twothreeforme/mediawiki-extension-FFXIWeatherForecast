@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Shocks"
+		]
+	},
+
+	"weatherforecast": "Weather Forecast",
+	"weatherforecast-desc": "Tool for displaying weather probability.",
+	"weatherforecast-title": "Weather Forecast",
+	"weatherforecast-summary": "On this Special page users can filter weather forecasts by zone and type.",
+	"group-weatherforecastrole": "",
+	"group-weatherforecastrole-member": "",
+	"grouppage-weatherforecastrole": "",
+	"action-weatherforecast": "",
+	"right-weatherforecast": ""
+}
