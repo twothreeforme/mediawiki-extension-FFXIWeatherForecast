@@ -102,30 +102,30 @@ class SpecialASBSearch extends SpecialPage {
 		// 	]
 		// );
 		
-		$uiLayout = new OOUI\ActionFieldLayout(
-			new OOUI\ButtonWidget( [
-				'id' => 'asbsearch-shareButton',
-				'infusable' => true,
-				'label' => 'Show Drops',
-				'icon' => 'search',
-				'name' => 'search',
-				'flags' => [ 'primary', 'progressive'],
-				'method' => 'post'
-			] ),
-			new OOUI\TextInputWidget( [
-				'id' => 'shareButton',
-				//'infusable' => true,
-				'label' => 'Mob/BCNM Name*',
-				//'name' => 'search',
-				'flags' => [ 'primary', 'progressive']
-			] ),
-			[
-				'id' => 'asbsearch-fieldlayout',
-				'label' => new OOUI\HtmlSnippet( '<i><b>Disclosure:</b>  All data here is from AirSkyBoat, with minor additions/edits made based on direct feedback from Horizon Devs.</i>' ),
-				'align' => 'top',
-				'help' => 'Test help bubble'
-			]
-			);
+		// $uiLayout = new OOUI\ActionFieldLayout(
+		// 	new OOUI\ButtonWidget( [
+		// 		'id' => 'asbsearch-shareButton',
+		// 		'infusable' => true,
+		// 		'label' => 'Show Drops',
+		// 		'icon' => 'search',
+		// 		'name' => 'search',
+		// 		'flags' => [ 'primary', 'progressive'],
+		// 		'method' => 'post'
+		// 	] ),
+		// 	new OOUI\TextInputWidget( [
+		// 		'id' => 'shareButton',
+		// 		//'infusable' => true,
+		// 		'label' => 'Mob/BCNM Name*',
+		// 		//'name' => 'search',
+		// 		'flags' => [ 'primary', 'progressive']
+		// 	] ),
+		// 	[
+		// 		'id' => 'asbsearch-fieldlayout',
+		// 		'label' => new OOUI\HtmlSnippet( '<i><b>Disclosure:</b>  All data here is from AirSkyBoat, with minor additions/edits made based on direct feedback from Horizon Devs.</i>' ),
+		// 		'align' => 'top',
+		// 		'help' => 'Test help bubble'
+		// 	]
+		// 	);
 
 		// $shareButton = new OOUI\ButtonWidget( [
 		// 		'id' => 'shareButton',
