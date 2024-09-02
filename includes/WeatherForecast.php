@@ -280,8 +280,6 @@ class SpecialWeatherForecast extends SpecialPage {
                                     break 2;
                                 }
                             }
-
-
                         }
                     }
 
