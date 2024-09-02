@@ -339,7 +339,7 @@ class SpecialASBSearch extends SpecialPage {
 	function getBCNMCrateRates($zoneNameSearch, $bcnmNameSearch, $itemNameSearch){
 		$zoneNameSearch = ParserHelper::replaceSpaces($zoneNameSearch);
 		//if ( $zoneNameSearch != 'searchallzones' )
-		if ( !ExclusionsHelper::zoneIsBCNM($zoneNameSearch) && $zoneNameSearch != 'searchallzones' ) return;
+		if ( !ExclusionsHelper_Forecast::zoneIsBCNM($zoneNameSearch) && $zoneNameSearch != 'searchallzones' ) return;
 
 		//if ( gettype($itemNameSearch) ==  )
 		//print_r(gettype($itemNameSearch));
@@ -449,13 +449,13 @@ class SpecialASBSearch extends SpecialPage {
 				
 				//$zn = str_replace("[S]", "(S)", $zn );
 				// $skipRow = false;
-				// foreach( ExclusionsHelper::$zones as $v) { 
+				// foreach( ExclusionsHelper_Forecast::$zones as $v) {
 				// 	//print_r($zn);
 				// 	if ( $zn == $v ) { $skipRow = true; break; } }
 				// if ( $skipRow == true ) continue;
 				$zn = ParserHelper::zoneERA_forList($row['zoneName']);
 				if ( !$zn ) { continue; }
-				if ( ExclusionsHelper::mobIsOOE($row['mobName']) ) { continue; }
+				if ( ExclusionsHelper_Forecast::mobIsOOE($row['mobName']) ) { continue; }
 				/*******************************************************/
 
 				/*******************************************************

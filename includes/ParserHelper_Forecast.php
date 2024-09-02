@@ -18,7 +18,7 @@ class ParserHelper_Forecast {
 
 		// print_r($mobName ."-". $mobType ."...");
 
-		if ( ExclusionsHelper::zoneIsBCNM($zoneName) ) $mobName = " [[$mobName]]<sup>(BCNM)</sup> ";
+		if ( ExclusionsHelper_Forecast::zoneIsBCNM($zoneName) ) $mobName = " [[$mobName]]<sup>(BCNM)</sup> ";
 		else if ( $minLvl == $maxLvl ) {
 			if ( $maxLvl == 255) $mobName = " {{changes}}[[$mobName]]<sup>(HENM)</sup> ";
 			else $mobName = " [[$mobName]]<sup>($maxLvl)</sup> ";
@@ -45,7 +45,7 @@ class ParserHelper_Forecast {
 		$itemName = ucwords($itemName);
 
 		//if item is on OOE list
-		if ( ExclusionsHelper::itemIsOOE($itemName) ) return " <strike>$itemName</strike><sup>(OOE)</sup> ";
+		if ( ExclusionsHelper_Forecast::itemIsOOE($itemName) ) return " <strike>$itemName</strike><sup>(OOE)</sup> ";
 
 
 		if ( $item['changes'] == 1 )  return " {{changes}}[[$itemName]] ";
@@ -69,7 +69,7 @@ class ParserHelper_Forecast {
         
 		$zone = str_replace("[S]", "(S)", $zone);
 
-        if ( ExclusionsHelper::zoneIsOOE($zone) ) return NULL;
+        if ( ExclusionsHelper_Forecast::zoneIsOOE($zone) ) return NULL;
 
 		$zone = str_replace("-", " - ", $zone);
 
@@ -316,15 +316,17 @@ class ParserHelper_Forecast {
             }
 
         if ( $dayArray["normal"] == "None" && $dayArray["common"] == "None" && $dayArray["rare"] == "None") {
-            $dayArray["normal"] = "";
-            $dayArray["common"] = "No Change";
-            $dayArray["rare"] = "";
+            // $dayArray["normal"] = "";
+            // $dayArray["common"] = "No Change";
+            // $dayArray["rare"] = "";
+            $weatherArray[$w_vanaDate - $m_vanaDate] = $weatherArray[$w_vanaDate - $m_vanaDate - 1];
         }
+        else $weatherArray[$w_vanaDate - $m_vanaDate] = $dayArray;
 
-        $weatherArray[$w_vanaDate - $m_vanaDate] = $dayArray;
         // $dayUpdate = $dayUpdate + 1;
         $hexweatherdata = 0;
         $w_vanaDate = $w_vanaDate + 1;
+        //print_r($w_vanaDate .":".$m_vanaDate);
         $hexweatherdata = ParserHelper_Forecast::getWeatherHex($arr, $w_vanaDate);
         //print_r(count($weatherArray));
 

@@ -1,10 +1,10 @@
 <?php
 
-class ExclusionsHelper {
+class ExclusionsHelper_Forecast {
 
     public static function zoneIsOOE($x){
         if ( gettype($x) == 'string' || gettype($x) == 'integer' ){ 
-            foreach( ExclusionsHelper::$zones as $v) {
+            foreach( ExclusionsHelper_Forecast::$zones as $v) {
                //print_r($v);
                 if ( $x == $v) { 
                     //print_r($x . " found OOE"); 
@@ -16,14 +16,14 @@ class ExclusionsHelper {
 
     public static function mobIsOOE($m){
         if ( substr($m, -2) == "_G" ) return true;  // Garrison Mobs
-        foreach( ExclusionsHelper::$mobs as $mob) {
+        foreach( ExclusionsHelper_Forecast::$mobs as $mob) {
             if ( ucwords($mob) == ucwords($m)) return true;
         }
         return false;
     }
 
     public static function itemIsOOE($i){
-        foreach( ExclusionsHelper::$items as $item) {
+        foreach( ExclusionsHelper_Forecast::$items as $item) {
             if ( ucwords($item) == ucwords($i)) return true;
         }
         return false;
@@ -33,7 +33,7 @@ class ExclusionsHelper {
         if ( gettype($zone) == 'string' || gettype($zone) == 'integer' ){ 
             $zone = ParserHelper::replaceUnderscores($zone);
 
-            foreach( ExclusionsHelper::$bcnmZones as $k => $v) {
+            foreach( ExclusionsHelper_Forecast::$bcnmZones as $k => $v) {
                 //$k = ucwords($k);
                 $v = ucwords($v);
                 // print_r($k, $v);
@@ -179,35 +179,35 @@ class ExclusionsHelper {
         'Dynamis-Jeuno [D]',
         
         // Towns
-        'Upper Jeuno',
-        'Lower Jeuno',
-        'Port Jeuno',
-        'RuLude Gardens',
-        'Northern San dOria',
-        'Southern San dOria',
-        'Port San dOria',
-        'Chateau dOraguille',
-        'Bastok Markets',
-        'Bastok Mines',
-        'Port Bastok',
-        'Metalworks',
-        'Windurst Woods',
-        'Windurst Walls', 
-        'Windurst Waters',
-        'Port Windurst', 
-        'Heavens Tower',
-        'Kazham',
-        'Selbina',
-        'Rabao',
-        'Mhaura',
-        'Norg',
-        'Tavnazian Safehold',
-        'Windurst-Jeuno Airship',
-        'San dOria-Jeuno Airship', 
-        'Bastok-Jeuno Airship', 
-        'Kazham-Jeuno Airship', 
-        'Ship bound for Mhaura', 
-        'Ship bound for Selbina',
+        // 'Upper Jeuno',
+        // 'Lower Jeuno',
+        // 'Port Jeuno',
+        // 'RuLude Gardens',
+        // 'Northern San dOria',
+        // 'Southern San dOria',
+        // 'Port San dOria',
+        // 'Chateau dOraguille',
+        // 'Bastok Markets',
+        // 'Bastok Mines',
+        // 'Port Bastok',
+        // 'Metalworks',
+        // 'Windurst Woods',
+        // 'Windurst Walls',
+        // 'Windurst Waters',
+        // 'Port Windurst',
+        // 'Heavens Tower',
+        // 'Kazham',
+        // 'Selbina',
+        // 'Rabao',
+        // 'Mhaura',
+        // 'Norg',
+        // 'Tavnazian Safehold',
+        // 'Windurst-Jeuno Airship',
+        // 'San dOria-Jeuno Airship',
+        // 'Bastok-Jeuno Airship',
+        // 'Kazham-Jeuno Airship',
+        // 'Ship bound for Mhaura',
+        // 'Ship bound for Selbina',
 
         // Avatar Battlefields
         'Cloister of Flames',

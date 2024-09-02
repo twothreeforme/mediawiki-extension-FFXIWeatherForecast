@@ -36,13 +36,13 @@ class DataModel {
 			
 			//$zn = str_replace("[S]", "(S)", $zn );
 			// $skipRow = false;
-			// foreach( ExclusionsHelper::$zones as $v) { 
+			// foreach( ExclusionsHelper_Forecast::$zones as $v) {
 			// 	//print_r($zn);
 			// 	if ( $zn == $v ) { $skipRow = true; break; } }
 			// if ( $skipRow == true ) continue;
 			$zn = ParserHelper::zoneERA_forList($row->zoneName);
 			if ( !$zn ) { continue; }
-			if ( ExclusionsHelper::mobIsOOE($row->mobName) ) { continue; }
+			if ( ExclusionsHelper_Forecast::mobIsOOE($row->mobName) ) { continue; }
 			/*******************************************************/
 			//print_r(gettype($row));
 			$r_mobMinLevel = ( property_exists($row, 'mobMinLevel' ) ) ? $row->mobMinLevel : 0; 
@@ -215,13 +215,13 @@ class DataModel {
 			
 	// 		//$zn = str_replace("[S]", "(S)", $zn );
 	// 		// $skipRow = false;
-	// 		// foreach( ExclusionsHelper::$zones as $v) { 
+	// 		// foreach( ExclusionsHelper_Forecast::$zones as $v) {
 	// 		// 	//print_r($zn);
 	// 		// 	if ( $zn == $v ) { $skipRow = true; break; } }
 	// 		// if ( $skipRow == true ) continue;
 	// 		$zn = ParserHelper::zoneERA_forList($row->zoneName);
 	// 		if ( !$zn ) { continue; }
-	// 		if ( ExclusionsHelper::mobIsOOE($row->mobName) ) { continue; }
+	// 		if ( ExclusionsHelper_Forecast::mobIsOOE($row->mobName) ) { continue; }
 	// 		/*******************************************************/
 
 

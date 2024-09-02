@@ -9,9 +9,9 @@
     "license-name": "MIT",
     "type": "other",
     "AutoloadClasses": {
+        "ExclusionsHelper_Forecast": "includes/ExclusionsHelper_Forecast.php",
         "DBConnection_Forecast": "includes/DBConnection_Forecast.php",
         "SpecialWeatherForecast": "includes/WeatherForecast.php",
-        "ExclusionsHelper": "includes/ExclusionsHelper.php",
         "ParserHelper_Forecast": "includes/ParserHelper_Forecast.php",
         "DataModel": "includes/DataModel.php"
 	},
