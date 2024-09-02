@@ -243,6 +243,8 @@ class SpecialWeatherForecast extends SpecialPage {
 		<table class=\"zone-weathertable\">
 			<tr><th>Zone Name</th>
 			<th>Vana Days</th>
+            <th>Day's Element</th>
+            <th>Moon Phase</th>
 			<th>Normal (50%)</th>
 			<th>Common (35%)</th>
             <th>Rare (15%)</th>
@@ -254,7 +256,9 @@ class SpecialWeatherForecast extends SpecialPage {
     function showWeatherPressed($weatherArray, $zone, $weatherType){
         $html = $this->_tableHeaders();
 
-       // print_r($zone ." : ". $weatherType ." : ". count($weatherArray) );
+        $time = new VanaTime();
+        //print_r($zone ." : ". $weatherType ." : ". count($weatherArray) );
+        print_r("<br>" . $time->weekDayFrom(1));
 
         $shouldAddDay = null;
         if ( $zone == "searchallzones" && $weatherType == 8){
@@ -285,7 +289,7 @@ class SpecialWeatherForecast extends SpecialPage {
 
                     // Add row to table
                     if ( $shouldAddDay != null && $shouldAddDay != 0){
-                        $html .= "<tr><td>". $row['name'] ."</td><td> $key </td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
+                        $html .= "<tr><td>". $row['name'] ."</td><td>$key</td><td>" . $time->getWeekDayElement($key) .  "</td><td>" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
                         $shouldAddDay = 0;
                     }
 

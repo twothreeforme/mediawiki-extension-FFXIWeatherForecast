@@ -118,13 +118,6 @@ class ParserHelper_Forecast {
 
 
 
-	/************************
-	 * Weather Forecast Parsing
-	 */
-    public static function getVanaDate(){
-        return intval(((floor(microtime(true) ) - 1009810800) / 3456)) % 2160 ;
-    }
-
 	public static function getWeatherHex($arr, $vanaDay){
         $hexweatherdata =  $arr[(($vanaDay * 2)  + 1 )] . $arr[($vanaDay * 2) ];
         //print_r("<br/>" . "newHex: " . $hexweatherdata . "<br/>");
@@ -191,7 +184,8 @@ class ParserHelper_Forecast {
         $arr = str_split($bin[1], 2);
         //print_r(array_keys($arr));
 
-        $m_vanaDate = ParserHelper_Forecast::getVanaDate();
+        $vanatime = new VanaTime();
+        $m_vanaDate = $vanatime->getVanaDate();
 
         /*                                                                        *
         *              0        00000       00000        00000                   *

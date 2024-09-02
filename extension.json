@@ -9,6 +9,7 @@
     "license-name": "MIT",
     "type": "other",
     "AutoloadClasses": {
+        "VanaTime": "includes/VanaTime.php",
         "ExclusionsHelper_Forecast": "includes/ExclusionsHelper_Forecast.php",
         "DBConnection_Forecast": "includes/DBConnection_Forecast.php",
         "SpecialWeatherForecast": "includes/WeatherForecast.php",
