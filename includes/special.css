@@ -1,21 +1,4 @@
-#asbsearch_dropstable {
-    position: relative;
-    width: 100%;
+.special-weatherforecast-table td{
+    text-align: center;
+    vertical-align: middle;
 }
-
-#asbsearch_dropstable th {
-    background-color: #ffffff;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-
-#asbsearch_dropstable tr:nth-child(odd) td{
-    background-color: #12396c30;
-}
-
-#asbsearch_dropstable2 tr td{
-    width: 100%;
-    background-color:rgba(0, 0, 0, 0) !important;
-}
-

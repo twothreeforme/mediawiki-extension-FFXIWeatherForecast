@@ -1,5 +1,7 @@
 <?php
 
+
+
 class SpecialWeatherForecast extends SpecialPage {
 
     private $weatherelements = [
@@ -26,79 +28,14 @@ class SpecialWeatherForecast extends SpecialPage {
         "** All Weather Types **" => 8
     ];
 
-    private function getWeatherTypeName($int){
-        return;
-    }
-
-    // private function getWeatherElementFrom($int){
-    //     switch ($int) {
-    //         case 4; return "Fire"
-
-    //         case 2;
-    //             $weatherType = "[[File:clouds.png]] Clouds";
-    //             break;
-    //         case 3;
-    //             $weatherType = "Fog";
-    //             break;
-    //         case 4;
-    //             $weatherType = "{{Fire|Weather}} Hot Spell";
-    //             break;
-    //         case 5;
-    //             $weatherType = "{{Fire|Double Weather}} Heat Wave";
-    //             break;
-    //         case 6;
-    //             $weatherType = "{{Water|Weather}} Rain";
-    //             break;
-    //         case 7;
-    //             $weatherType = "{{Water|Double Weather}} Squalls";
-    //             break;
-    //         case 8;
-    //             $weatherType = "{{Earth|Weather}} Dust Storm";
-    //             break;
-    //         case 9;
-    //             $weatherType = "{{Earth|Double Weather}} Sand Storm";
-    //             break;
-    //         case 10;
-    //             $weatherType = "{{Wind|Weather}} Wind";
-    //             break;
-    //         case 11;
-    //             $weatherType = "{{Wind|Double Weather}} Gales";
-    //             break;
-    //         case 12;
-    //             $weatherType = "{{Ice|Weather}} Snow";
-    //             break;
-    //         case 13;
-    //             $weatherType = "{{Ice|Double Weather}} Blizzard";
-    //             break;
-    //         case 14;
-    //             $weatherType = "{{Lightning|Weather}} Thunder";
-    //             break;
-    //         case 15;
-    //             $weatherType = "{{Lightning|Double Weather}} Thunderstorms";
-    //             break;
-    //         case 16;
-    //             $weatherType = "{{Light|Weather}} Auroras";
-    //             break;
-    //         case 17;
-    //             $weatherType = "{{Light|Double Weather}} Stellar Glare";
-    //             break;
-    //         case 18;
-    //             $weatherType = "{{Dark|Weather}} Gloom";
-    //             break;
-    //         case 19;
-    //             $weatherType = "{{Dark|Double Weather}} Darkness";
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
     public function __construct( ) {
         parent::__construct( 'WeatherForecast' );
+
     }
 
     static function onBeforePageDisplay( $out, $skin ) : void  { 
         $out->addModules(['inputHandler']);
+
     }
 
     function zoneNameArray($weatherArray){
@@ -109,6 +46,8 @@ class SpecialWeatherForecast extends SpecialPage {
         ksort($result);
         return $result;
     }
+
+
 
     function getWeather(){
         $dbr = new DBConnection_Forecast();
@@ -238,9 +177,9 @@ class SpecialWeatherForecast extends SpecialPage {
 		 * Initial HTML for the table
 		 */
 		$html .= "<br>
-		<div ><i> All data and probabilities are based on AirSkyBoat. </i></div>
+		<div ><i> All data and probabilities are based on AirSkyBoat. All earth times are based on your local timezone.</i></div>
 		<div style=\"max-height: 900px; overflow: auto; display: inline-block; width: 100%;\">
-		<table class=\"zone-weathertable\">
+		<table class=\"special-weatherforecast-table\">
 			<tr><th>Zone Name</th>
 			<th>Vana Days</th>
             <th>Day's Element</th>
@@ -250,6 +189,20 @@ class SpecialWeatherForecast extends SpecialPage {
             <th>Rare (15%)</th>
 			</tr>
             ";
+        //  $html .= "<br>
+        //     <div ><i> All data and probabilities are based on AirSkyBoat. All earth times are based on your local timezone.</i></div>
+        //     <div style=\"max-height: 900px; overflow: auto; display: inline-block; width: 100%;\">
+        //     <table class=\"special-weatherforecast-table\">
+        //         <tr><th>Zone Name</th>
+        //         <th>Vana Days</th>
+        //         <th>Earth Time</th>
+        //         <th>Day's Element</th>
+        //         <th>Moon Phase</th>
+        //         <th>Normal (50%)</th>
+        //         <th>Common (35%)</th>
+        //         <th>Rare (15%)</th>
+        //         </tr>
+        //         ";
 		return $html;
 	}
 
@@ -289,7 +242,11 @@ class SpecialWeatherForecast extends SpecialPage {
 
                     // Add row to table
                     if ( $shouldAddDay != null && $shouldAddDay != 0){
-                        $html .= "<tr><td>". $row['name'] ."</td><td>$key</td><td>" . $time->getWeekDayElement($key) .  "</td><td>" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
+                        $vt = $time->getVanaTimeFromDaysAhead($key);
+                        $vanadays = ( $key == 0 ) ? "Today" : $key;
+
+                        //$html .= "<tr><td>". $row['name'] ."</td><td style=\"text-align:center;\">$vanadays</td><td>" . $time->earthTime(null) . "</td><td style=\"text-align:center; color:" . $time->dayColor($vt) . "\" >" . $time->getWeekDayElement($key) .  "</td><td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
+                        $html .= "<tr><td>". $row['name'] ."</td><td style=\"text-align:center;\">$vanadays</td><td style=\"text-align:center; color:" . $time->dayColor($vt) . "\" >" . $time->getWeekDayElement($key) .  "</td><td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
                         $shouldAddDay = 0;
                     }
 
@@ -303,6 +260,9 @@ class SpecialWeatherForecast extends SpecialPage {
          }
         return $html;
     }
+
+
 }
 
 ?>
+

@@ -4,10 +4,12 @@ class VanaTime {
 
     private $elementalDay =     ["Firesday",    "Earthsday",        "Watersday",        "Windsday",         "Iceday",           "Lightningday",     "Lightsday",    "Darksday"];
     private $moonPhaseName =    ["New Moon",    "Waxing Crescent",  "First Quarter",    "Waxing Gibbous",   "Full Moon",        "Waning Gibbous",   "Last Quarter", "Waning Crescent"];
+    private $dayColor =         ["#FF0000",     "#AAAA00",          "#0000DD",           "#00AA22",         "#7799FF",          "#AA00AA",          "#AAAAAA",      "#333333"];
 
     private $VTIME_BIRTH = 1024844400000;
     private $VTIME_BASEDATE  = 1009810800;
-    //private $vanaBirthday = (((898 * 360) + 30) * 24 * 60 * 60) / (25 / 1000); // 1117359360000 - in earth time milliseconds
+    private $vanaBirthday = (((898 * 360) + 30) * 24 * 60 * 60) / (25 / 1000); // 1117359360000 - in earth time milliseconds
+    private $difference = 92514960000; //$this->vanaBirthday - $this->VTIME_BIRTH;
 
     // Conversions in Minutes
     // private $VTIME_YEAR  =      518400;   // 360 * GameDay
@@ -18,6 +20,56 @@ class VanaTime {
     private $VMULTIPLIER =      25;
     private $MOON_CYCLE_DAYS =  84;
 
+
+    function getTimeZone(){
+        if( !isset($_COOKIE['timezone'] )){
+
+            $ip = $_SERVER['REMOTE_ADDR'];
+
+            //Open GeoIP database and query our IP
+            $gi = geoip_open("GeoLiteCity.dat", GEOIP_STANDARD);
+            $record = geoip_record_by_addr($gi, $ip);
+
+            //If we for some reason didnt find data about the IP, default to a preset location.
+            //You can also print an error here.
+            if(!isset($record))
+            {
+                $record = new geoiprecord();
+                $record->latitude = 59.2;
+                $record->longitude = 17.8167;
+                $record->country_code = 'SE';
+                $record->region = 26;
+            }
+
+            //Calculate the timezone and local time
+            try
+            {
+                //Create timezone
+                $user_timezone = new DateTimeZone(get_time_zone($record->country_code, ($record->region!='') ? $record->region : 0));
+
+                setcookie("timezone", strval($user_timezone), time() + (86400 * 30), "/"); //setting cookie to the browser for reference
+
+                //Create local time
+                $user_localtime = new DateTime("now", $user_timezone);
+                $user_timezone_offset = $user_localtime->getOffset();
+            }
+            //Timezone and/or local time detection failed
+            catch(Exception $e)
+            {
+                $user_timezone_offset = 7200;
+                $user_localtime = new DateTime("now");
+            }
+
+            // print_r( 'User local time: ' . $user_localtime->format('H:i:s') . '<br/>' );
+            // print_r(  'Timezone GMT offset: ' . $user_timezone_offset . '<br/>' );
+        }
+    }
+
+    public function today_inMS(){ // result in earth Milliseconds
+        $now = $this->now_inEarthMS();
+        return ( $now - ( $now % (24 * 60 * 60 * 1000) ));
+    }
+
     public function now_inEarthMS(){
         return ((898 * 360 + 30) * (24 * 60 * 60 * 1000)) + (floor(microtime(true)) - $this->VTIME_BIRTH) * $this->VMULTIPLIER;
     }
@@ -26,6 +78,10 @@ class VanaTime {
 
     public function getVanaDate(){
         return intval(((floor(microtime(true) ) - $this->VTIME_BASEDATE) / 3456)) % 2160 ;
+    }
+
+    public function getVanaTimeFromDaysAhead($daysAhead){
+        return (int)$this->now() + ($daysAhead * $this->VTIME_DAY);
     }
 
     public function weekDayFrom($daysAhead){
@@ -40,6 +96,11 @@ class VanaTime {
 
     public function getWeekDayElement($vanaWeekDay){
         return $this->elementalDay[$this->weekDayFrom($vanaWeekDay)];
+    }
+
+    public function dayColor($vanatime){
+        if ( !isset($vanatime) ) $vanatime = $this->now();
+        return $this->dayColor[$this->weekDay($vanatime)];
     }
 
     public function moonLatentPhase($vanatime, $daysAhead){
@@ -80,10 +141,50 @@ class VanaTime {
     }
 
     public function moonPhaseNameFrom($daysAhead){
-        $vt = (int)$this->now() + ($daysAhead * $this->VTIME_DAY);
-        return $this->moonPhaseName[$this->moonLatentPhase($vt, null)] . " " .$this->moonPercent($vt) . "% ";
+        $vt = $this->getVanaTimeFromDaysAhead($daysAhead);
+        return $this->moonPhaseName[$this->moonLatentPhase($vt, null)] . " " .$this->moonPercent($vt) . "%";
     }
+
+    public function earthTime($vanatime){
+        if ( !isset($vanatime) ) $vanatime = $this->now_inEarthMS();
+        $vanatime = $vanatime / ( $this->VMULTIPLIER );
+
+        $vTempTime = $this->today_inMS() / (60 * 1000);
+        $vTempTime = $vTempTime * 60;
+        $vTempTime = floor($vTempTime / (25 / 1000)) - $this->difference;
+
+        //print_r("<br/>" . $vTempTime . "  " . $vanatime);
+
+        $this->getTimeZone();
+        $dt = new DateTime("now", new DateTimeZone($_COOKIE['timezone']));
+        //$dt->setTimestamp(floor((int)$vanatime) - ($this->vanaBirthday - $this->VTIME_BIRTH));
+        $dt->setTimestamp( $vTempTime );
+        return $dt->format("d-M-Y h:i A");
+    }
+
 
 }
 
  ?>
+
+<script type="text/javascript">
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+if(getCookie('timezone')!=Intl.DateTimeFormat().resolvedOptions().timeZone){
+    document.cookie = "timezone="+Intl.DateTimeFormat().resolvedOptions().timeZone;
+    location.reload();
+}
+</script>
