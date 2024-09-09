@@ -13,4 +13,5 @@ $specialPageAliases = [];
  */
 $specialPageAliases['en'] = [
 	'WeatherForecast' => [ 'WeatherForecast' ],
+	'DiggingWeatherForecast' => [ 'DiggingWeatherForecast' ]
 ];

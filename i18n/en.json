@@ -13,5 +13,16 @@
 	"group-weatherforecastrole-member": "",
 	"grouppage-weatherforecastrole": "",
 	"action-weatherforecast": "",
-	"right-weatherforecast": ""
+	"right-weatherforecast": "",
+
+
+	"diggingweatherforecast": "Digging: Weather Forecast",
+	"diggingweatherforecast-desc": "Tool for displaying weather probability, designed to support Digging.",
+	"diggingweatherforecast-title": "Digging: Weather Forecast",
+	"diggingweatherforecast-summary": "On this Special page Diggers can attempt to prioritize zones for ore digging.",
+	"group-diggingweatherforecast": "",
+	"group-diggingweatherforecast-member": "",
+	"grouppage-diggingweatherforecast": "",
+	"action-diggingweatherforecast": "",
+	"right-diggingweatherforecast": ""
 }

@@ -9,18 +9,25 @@
     "license-name": "MIT",
     "type": "other",
     "AutoloadClasses": {
+        "HTMLTableHelper": "includes/HTMLTableHelper.php",
         "VanaTime": "includes/VanaTime.php",
         "ExclusionsHelper_Forecast": "includes/ExclusionsHelper_Forecast.php",
+        "WeatherForecast_ElementMaps": "includes/WeatherForecast_ElementMaps.php",
         "DBConnection_Forecast": "includes/DBConnection_Forecast.php",
-        "SpecialWeatherForecast": "includes/WeatherForecast.php",
         "ParserHelper_Forecast": "includes/ParserHelper_Forecast.php",
-        "DataModel": "includes/DataModel.php"
+        "DataModel": "includes/DataModel.php",
+        "SpecialWeatherForecast": "includes/WeatherForecast.php",
+        "SpecialDiggingWeatherForecast": "includes/DiggingWeatherForecast.php"
 	},
     "SpecialPages": {
-        "WeatherForecast": "SpecialWeatherForecast"
+        "WeatherForecast": "SpecialWeatherForecast",
+        "DiggingWeatherForecast": "SpecialDiggingWeatherForecast"
     },
     "MessagesDirs": {
         "WeatherForecast": [
+			"i18n"
+		],
+        "DiggingWeatherForecast": [
 			"i18n"
 		]
 	},

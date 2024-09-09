@@ -1,36 +1,9 @@
 <?php
 
-
-
 class SpecialWeatherForecast extends SpecialPage {
-
-    private $weatherelements = [
-        0 => [ "Hot Spell", "Heat Wave" ],
-        1 => [ "Blizzard", "Snow" ],
-        2 => [ "Wind", "Gales" ],
-        3 => [ "Dust Storm", "Sand Storm"],
-        4 => [ "Thunder", "Thunderstorms"],
-        5 => [ "Rain", "Squall"],
-        6 => [ "Gloom", "Darkness"],
-        7 => [ "Auroras", "Stellar Glare"],
-        8 => [ "None", "Sunshine", "Clouds", "Fog" ]
-    ];
-
-    private $elements = [
-        "Fire" => 0,
-        "Ice" => 1,
-        "Wind" => 2,
-        "Earth" => 3,
-        "Thunder" => 4,
-        "Water" => 5,
-        "Dark" => 6,
-        "Light" => 7,
-        "** All Weather Types **" => 8
-    ];
 
     public function __construct( ) {
         parent::__construct( 'WeatherForecast' );
-
     }
 
     static function onBeforePageDisplay( $out, $skin ) : void  { 
@@ -47,46 +20,6 @@ class SpecialWeatherForecast extends SpecialPage {
         return $result;
     }
 
-
-
-    function getWeather(){
-        $dbr = new DBConnection_Forecast();
-        $allZonesWeather = $dbr->getForecastFromDB();
-
-        $result = [ ];
-        foreach( $allZonesWeather as $row ){
-            //Filter zones for those in Era
-            $temp = ParserHelper_Forecast::zoneERA_forList($row->name);
-			if ( !isset($temp) ) { continue; }
-
-            //Start stripping out weather details
-            //Should occur for each relevant zone
-            $zoneWeatherArray = ParserHelper_Forecast::createCompleteWeatherArrayForZone($row->weather, 30);
-            // print_r("<br>". $temp . "<br>");
-            // print_r($zoneWeatherArray);
-
-            $weatherdetails = array(
-                'name' => $temp,
-                'pagelinkname' => $row->name,
-				'weather' => $zoneWeatherArray,
-                'id' => $row->zoneid
-            );
-
-			$result[] = $weatherdetails;
-            //print_r("<br />" . $row->zoneid . " " . $row->name);
-        }
-
-        $allzones= array(
-            'name' => ' ** Search All Zones ** ',
-            'pagelinkname' => 'searchallzones',
-            'weather' => NULL,
-            'id' => NULL
-        );
-        $result[] = $allzones;
-
-        return $result;
-    }
-
     function execute( $par ) {
 
         $request = $this->getRequest();
@@ -99,7 +32,8 @@ class SpecialWeatherForecast extends SpecialPage {
 		$weatherTypeDropDown = $request->getText( 'weatherTypeDropDown' );
 
         //$zoneNamesList
-        $weatherArray = $this->getWeather();
+        $db = new DBConnection_Forecast();
+        $weatherArray = $db->getWeather(null);
         $zoneNamesList = $this->zoneNameArray($weatherArray);
 
         // print_r($zoneNameDropDown);
@@ -129,7 +63,7 @@ class SpecialWeatherForecast extends SpecialPage {
 				'name' => 'weatherTypeDropDown',
 				'label' => 'Select Weather Type', // Label of the field
 				'class' => 'HTMLSelectField', // Input type
-				'options' => $this->elements ,
+				'options' => WeatherForecast_ElementMaps::$elements ,
 				'default' => 8,
 			],
 			'zoneNameDropDown' => [
@@ -171,47 +105,13 @@ class SpecialWeatherForecast extends SpecialPage {
 		return false;
 	}
 
-    function _tableHeaders(){
-		$html = "";
-		/************************
-		 * Initial HTML for the table
-		 */
-		$html .= "<br>
-		<div ><i> All data and probabilities are based on AirSkyBoat. All earth times are based on your local timezone.</i></div>
-		<div style=\"max-height: 900px; overflow: auto; display: inline-block; width: 100%;\">
-		<table class=\"special-weatherforecast-table sortable\">
-			<tr><th>Zone Name</th>
-			<th>Vana Days</th>
-            <th>Day's Element</th>
-            <th>Moon Phase</th>
-			<th>Normal (50%)</th>
-			<th>Common (35%)</th>
-            <th>Rare (15%)</th>
-			</tr>
-            ";
-        //  $html .= "<br>
-        //     <div ><i> All data and probabilities are based on AirSkyBoat. All earth times are based on your local timezone.</i></div>
-        //     <div style=\"max-height: 900px; overflow: auto; display: inline-block; width: 100%;\">
-        //     <table class=\"special-weatherforecast-table\">
-        //         <tr><th>Zone Name</th>
-        //         <th>Vana Days</th>
-        //         <th>Earth Time</th>
-        //         <th>Day's Element</th>
-        //         <th>Moon Phase</th>
-        //         <th>Normal (50%)</th>
-        //         <th>Common (35%)</th>
-        //         <th>Rare (15%)</th>
-        //         </tr>
-        //         ";
-		return $html;
-	}
 
     function showWeatherPressed($weatherArray, $zone, $weatherType){
-        $html = $this->_tableHeaders();
+        $html = HTMLTableHelper::buildTableHeaders();
 
         $time = new VanaTime();
         //print_r($zone ." : ". $weatherType ." : ". count($weatherArray) );
-        print_r("<br>" . $time->weekDayFrom(1));
+        //print_r("<br>" . $time->weekDayFrom(1));
 
         $shouldAddDay = null;
         if ( $zone == "searchallzones" && $weatherType == 8){
@@ -230,7 +130,7 @@ class SpecialWeatherForecast extends SpecialPage {
                                 $shouldAddDay = $day;
                                 break;
                             }
-                            foreach ( $this->weatherelements[$weatherType] as $value){
+                            foreach ( WeatherForecast_ElementMaps::$weatherelements[$weatherType] as $value){
                                 if ( str_contains($dayWeatherType, $value ) ) {
                                     //print_r( "<br> match: " . $value . " : ". $dayWeatherType);
                                     $shouldAddDay = $day;
