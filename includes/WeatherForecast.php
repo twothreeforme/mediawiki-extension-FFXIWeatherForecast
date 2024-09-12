@@ -1,5 +1,6 @@
 <?php
 
+
 class SpecialWeatherForecast extends SpecialPage {
 
     public function __construct( ) {
@@ -22,10 +23,12 @@ class SpecialWeatherForecast extends SpecialPage {
 
     function execute( $par ) {
 
+
         $request = $this->getRequest();
 		$output = $this->getOutput();
 		//$output->addModules(['inputHandler']);
 		$output->setPageTitle( $this->msg( 'weatherforecast' ) );
+        $output->addHTML( "<br><button type=\"button\"  onclick=\"location.href='https://horizonffxi.wiki/Special:DiggingWeatherForecast'\">Digging - Weather Page</button> <br><br>"  );
         $this->setHeaders();
 
 		$zoneNameDropDown = $request->getText( 'zoneNameDropDown' );
@@ -45,7 +48,7 @@ class SpecialWeatherForecast extends SpecialPage {
 		}
         else {
             //create new array with weather values
-            $wikitext = $this->showWeatherPressed( $weatherArray, $zoneNameDropDown, $weatherTypeDropDown );
+            $wikitext .= $this->showWeatherPressed( $weatherArray, $zoneNameDropDown, $weatherTypeDropDown );
         }
         //print_r( array_values($zoneNamesList) );
 
@@ -88,6 +91,8 @@ class SpecialWeatherForecast extends SpecialPage {
 		$htmlForm->show(); // Display the form
 
 		//print_r($htmlForm->wasSubmitted());
+
+
         $output->addWikiTextAsInterface( $wikitext );
     }
 
