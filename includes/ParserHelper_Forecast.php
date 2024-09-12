@@ -185,7 +185,8 @@ class ParserHelper_Forecast {
         //print_r(array_keys($arr));
 
         $vanatime = new VanaTime();
-        $m_vanaDate = $vanatime->getVanaDate();
+        $m_vanaDate = $vanatime->getWeatherDate();
+        //print_r($m_vanaDate);
 
         /*                                                                        *
         *              0        00000       00000        00000                   *
@@ -320,6 +321,7 @@ class ParserHelper_Forecast {
         // $dayUpdate = $dayUpdate + 1;
         $hexweatherdata = 0;
         $w_vanaDate = $w_vanaDate + 1;
+        if ( $w_vanaDate > 2160 ) $w_vanaDate =  $w_vanaDate - 2160;
         //print_r($w_vanaDate .":".$m_vanaDate);
         $hexweatherdata = ParserHelper_Forecast::getWeatherHex($arr, $w_vanaDate);
         //print_r(count($weatherArray));

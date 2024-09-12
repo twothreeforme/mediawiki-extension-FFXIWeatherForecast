@@ -12,11 +12,11 @@ class VanaTime {
     private $difference = 92514960000; //$this->vanaBirthday - $this->VTIME_BIRTH;
 
     // Conversions in Minutes
-    // private $VTIME_YEAR  =      518400;   // 360 * GameDay
-    // private $VTIME_MONTH =      43200;      // 30 * GameDay
+    private $VTIME_YEAR  =      518400;   // 360 * GameDay
+    private $VTIME_MONTH =      43200;      // 30 * GameDay
     private $VTIME_WEEK  =      11520;      // 8 * GameDay
     private $VTIME_DAY   =      1440;       // 24 hours * GameHour
-    // private $VTIME_HOUR  =      60;         // 60 minutes
+    private $VTIME_HOUR  =      60;         // 60 minutes
     private $VMULTIPLIER =      25;
     private $MOON_CYCLE_DAYS =  84;
 
@@ -65,6 +65,32 @@ class VanaTime {
         }
     }
 
+    /**
+     *  All forms of time are derived from this.
+     *  Integer - represented in Vana'diel MINUTES
+     */
+    public function _vTime(){
+        $earthTime = floor( floor(microtime(true) * 1000)  / 1000 );
+        return (($earthTime - $this->VTIME_BASEDATE) / 60 * 25) + 886 * $this->VTIME_YEAR;
+    }
+
+    /**
+     *  Only used to calculate - getWeatherDate()
+     *  Should not otherwise be used.
+     */
+    public function _eTime(){
+        return floor( floor(microtime(true) * 1000)  / 1000 );
+    }
+
+    /**
+     *  Integer - Vana'diel Year
+     *  Verified
+     */
+    public function year($vanatime) {
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
+        return floor($vanatime / $this->VTIME_YEAR);
+    }
+
     public function today_inMS(){ // result in earth Milliseconds
         $now = $this->now_inEarthMS();
         return ( $now - ( $now % (24 * 60 * 60 * 1000) ));
@@ -76,21 +102,24 @@ class VanaTime {
 
     public function now(){ return $this->now_inEarthMS() / ( 60 * 1000); }
 
-    public function getVanaDate(){
-        return intval(((floor(microtime(true) ) - $this->VTIME_BASEDATE) / 3456)) % 2160 ;
+    public function getWeatherDate(){
+        return intval((($this->_eTime() - $this->VTIME_BASEDATE) / 3456)) % 2160 ;
     }
 
+    /**
+     *
+     */
     public function getVanaTimeFromDaysAhead($daysAhead){
-        return (int)$this->now() + ($daysAhead * $this->VTIME_DAY);
+        return (int)$this->_vTime() + ($daysAhead * $this->VTIME_DAY);
     }
 
     public function weekDayFrom($daysAhead){
-        //print_r("<br/>" . ((int)$this->now() % $this->VTIME_WEEK) + ( $daysAhead * $this->VTIME_DAY));
-        return floor(( ( (int)$this->now() + ($daysAhead * $this->VTIME_DAY)) % $this->VTIME_WEEK)  / $this->VTIME_DAY);
+        //print_r("<br/>" . ((int)$this->_vTime() % $this->VTIME_WEEK) + ( $daysAhead * $this->VTIME_DAY));
+        return floor(( ( (int)$this->_vTime() + ($daysAhead * $this->VTIME_DAY)) % $this->VTIME_WEEK)  / $this->VTIME_DAY);
     }
 
     public function weekDay($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
         return floor(((int)$vanatime % $this->VTIME_WEEK) / $this->VTIME_DAY);
     }
 
@@ -99,13 +128,13 @@ class VanaTime {
     }
 
     public function dayColor($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
         return $this->dayColor[$this->weekDay($vanatime)];
     }
 
     public function moonLatentPhase($vanatime, $daysAhead){
         if ( !isset($daysAhead) ) $daysAhead = 0;
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
         $vanatime = $vanatime + ($daysAhead * $this->VTIME_DAY);
 
         $moonPhase = $this->moonPercent($vanatime);
@@ -122,7 +151,7 @@ class VanaTime {
     }
 
     public function moonDirection($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
             $moondays = floor($this->moonDays($vanatime));
             //console.log(daysmod);
             if ($moondays == 42 || $moondays == 0) { return 0; }// neither waxing nor waning
@@ -131,12 +160,12 @@ class VanaTime {
         }
 
     public function moonDays($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
         return  ( (int)(( $vanatime /  $this->VTIME_DAY ) + 26) % $this->MOON_CYCLE_DAYS);
     }
 
     public function moonPercent($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now();
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
         return abs( round((42 - floor($this->moonDays($vanatime))) / 42 * 100) );
     }
 
