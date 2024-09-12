@@ -28,7 +28,7 @@ class SpecialWeatherForecast extends SpecialPage {
 		$output = $this->getOutput();
 		//$output->addModules(['inputHandler']);
 		$output->setPageTitle( $this->msg( 'weatherforecast' ) );
-        $output->addHTML( "<br><button type=\"button\"  onclick=\"location.href='https://horizonffxi.wiki/Special:DiggingWeatherForecast'\">Digging - Weather Page</button> <br><br>"  );
+        $output->addHTML( "<br><center><button type=\"button\" onclick=\"location.href='https://horizonffxi.wiki/Special:DiggingWeatherForecast'\">Digging - Weather Page</button></center><br><br>"  );
         $this->setHeaders();
 
 		$zoneNameDropDown = $request->getText( 'zoneNameDropDown' );
