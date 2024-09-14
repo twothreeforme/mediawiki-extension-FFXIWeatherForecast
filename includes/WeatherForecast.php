@@ -149,6 +149,9 @@ class SpecialWeatherForecast extends SpecialPage {
                     if ( $shouldAddDay != null && $shouldAddDay != 0){
                         $vt = $time->getVanaTimeFromDaysAhead($key);
                         $vanadays = ( $key == 0 ) ? "0 (Today)" : $key;
+
+                        //print_r($key);
+
                         $name = ParserHelper_Forecast::zoneName($row['name']);
 
                         //$html .= "<tr><td>". $row['name'] ."</td><td style=\"text-align:center;\">$vanadays</td><td>" . $time->earthTime(null) . "</td><td style=\"text-align:center; color:" . $time->dayColor($vt) . "\" >" . $time->getWeekDayElement($key) .  "</td><td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";

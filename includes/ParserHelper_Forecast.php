@@ -310,6 +310,9 @@ class ParserHelper_Forecast {
                 $dayArray[$ncr] = $weatherType;
             }
 
+
+        if ( ($w_vanaDate - $m_vanaDate) < 0 ) $m_vanaDate = $m_vanaDate - 2160;
+
         if ( $dayArray["normal"] == "None" && $dayArray["common"] == "None" && $dayArray["rare"] == "None") {
             // $dayArray["normal"] = "";
             // $dayArray["common"] = "No Change";
@@ -321,8 +324,9 @@ class ParserHelper_Forecast {
         // $dayUpdate = $dayUpdate + 1;
         $hexweatherdata = 0;
         $w_vanaDate = $w_vanaDate + 1;
+
         if ( $w_vanaDate >= 2160 ) $w_vanaDate =  $w_vanaDate - 2160;
-        //print_r($w_vanaDate .":".$m_vanaDate);
+        //print_r($w_vanaDate . "<br>");
         $hexweatherdata = ParserHelper_Forecast::getWeatherHex($arr, $w_vanaDate);
         //print_r(count($weatherArray));
 
