@@ -10,7 +10,7 @@ class HTMLTableHelper {
 		$html .= "<br>
 		<div ><i> All data and probabilities are based on AirSkyBoat. All earth times are based on your local timezone.</i></div>
 		<div style=\"max-height: 900px; overflow: auto; display: inline-block; width: 100%;\">
-		<table class=\"horizon-table table-md special-weatherforecast-table  sortable\">
+		<table class=\"horizon-table general-table table-md special-weatherforecast-table  sortable\">
 			<tr><th>Zone Name</th>
 			<th>Vana Days</th>
             <th>Day's Element</th>
