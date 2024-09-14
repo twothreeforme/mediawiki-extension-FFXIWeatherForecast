@@ -1,11 +1,6 @@
 
-.special-weatherforecast-table {
-    position: relative;
-    width: 100%;
-}
 
 .special-weatherforecast-table th {
-    background-color: #ffffff;
     position: sticky;
     top: 0;
     z-index: 1;
