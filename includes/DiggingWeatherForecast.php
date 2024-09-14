@@ -35,7 +35,7 @@ class SpecialDiggingWeatherForecast extends SpecialPage {
                     ParserHelper_Forecast::contains( $day['common'], WeatherForecast_ElementMaps::$weatherelements[8]) &&
                     ParserHelper_Forecast::contains( $day['rare'], WeatherForecast_ElementMaps::$weatherelements[8]) )  {
                         $show = false;
-                        break;
+                        continue;
                     }
                 //}
                 if ( $show == false ) continue;
