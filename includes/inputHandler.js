@@ -1,6 +1,6 @@
 // ref: https://stackoverflow.com/questions/10683712/html-table-sort
 
-const table = document.querySelector('special-weatherforecast-table'); //get the table to be sorted
+const table = document.querySelector("special-weatherforecast-table"); //get the table to be sorted
 console.log('test', table);
 
 // table.querySelectorAll('th') // get all the table header elements
