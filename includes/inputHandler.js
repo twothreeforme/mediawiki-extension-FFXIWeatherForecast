@@ -1,7 +1,7 @@
 // ref: https://stackoverflow.com/questions/10683712/html-table-sort
 
-const table = document.querySelector('horizon-table general-table table-md special-weatherforecast-table  sortable'); //get the table to be sorted
-console.log('wiefhklshglkjsehgs', table);
+const table = document.querySelector('special-weatherforecast-table'); //get the table to be sorted
+console.log('test', table);
 
 // table.querySelectorAll('th') // get all the table header elements
 //   .forEach((element, columnNo)=>{ // add a click handler for each
