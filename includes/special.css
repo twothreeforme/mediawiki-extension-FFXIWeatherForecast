@@ -9,3 +9,7 @@
 .special-weatherforecast-table tr:nth-child(odd) td{
     background-color: #12396c30;
 }
+
+.special-weatherforecast-table {
+    font-size: 12px;
+}

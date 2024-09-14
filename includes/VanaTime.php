@@ -5,6 +5,7 @@ class VanaTime {
     private $elementalDay =     ["Firesday",    "Earthsday",        "Watersday",        "Windsday",         "Iceday",           "Lightningday",     "Lightsday",    "Darksday"];
     private $moonPhaseName =    ["New Moon",    "Waxing Crescent",  "First Quarter",    "Waxing Gibbous",   "Full Moon",        "Waning Gibbous",   "Last Quarter", "Waning Crescent"];
     private $dayColor =         ["#FF0000",     "#AAAA00",          "#0000DD",           "#00AA22",         "#7799FF",          "#AA00AA",          "#AAAAAA",      "#333333"];
+    private $moonIcon =         ["\u{1F311}",   "\u{1F312}",        "\u{1F313}",        "\u{1F314}",        "\u{1F315}",        "\u{1F316}",        "\u{1F317}",    "\u{1F318}"];
 
     private $VTIME_BIRTH = 1024844400000;
     private $VTIME_BASEDATE  = 1009810800;
@@ -171,7 +172,13 @@ class VanaTime {
 
     public function moonPhaseNameFrom($daysAhead){
         $vt = $this->getVanaTimeFromDaysAhead($daysAhead);
-        return $this->moonPhaseName[$this->moonLatentPhase($vt, null)] . " " .$this->moonPercent($vt) . "%";
+        $moonday = $this->moonLatentPhase($vt, null);
+        return $this->moonPhaseName[$moonday] . " " . $this->moonPhaseIcon($moonday) . $this->moonPercent($vt) . "%";
+    }
+
+    public function moonPhaseIcon($day){
+        if (!isset($day) ) return $this->moonIcon[$this->moonLatentPhase(null, null)];
+        else return $this->moonIcon[$day];
     }
 
     public function earthTime($vanatime){
