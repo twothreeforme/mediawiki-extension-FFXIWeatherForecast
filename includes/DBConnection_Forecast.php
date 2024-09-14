@@ -66,7 +66,7 @@ class DBConnection_Forecast {
             $temp = ParserHelper_Forecast::zoneERA_forList($row->name);
 			if ( !isset($temp) ) { continue; }
 
-            $dayCount = 45;
+            $dayCount = 30;
             //check if on the diggers special page
             //should only include the weather for the zones listed in ExclusionsHelper_Forecast::$diggingRelevantZones
             if ( $forDiggeresPage == true) {
