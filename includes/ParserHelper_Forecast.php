@@ -120,7 +120,7 @@ class ParserHelper_Forecast {
 
 	public static function getWeatherHex($arr, $vanaDay){
         $hexweatherdata =  $arr[(($vanaDay * 2)  + 1 )] . $arr[($vanaDay * 2) ];
-        //print_r("<br/>" . "newHex: " . $hexweatherdata . "<br/>");
+        //print_r("<br/>" . "newHex: " . $hexweatherdata . "vanaDay: " . $vanaDay ."<br/>");
         return $hexweatherdata;
     }
 
@@ -246,10 +246,10 @@ class ParserHelper_Forecast {
 
                 switch (bindec($split[$c])) {
                     case 1;
-                        $weatherType = "<b>Sunshine</b>";
+                        $weatherType = "Sunshine";
                         break;
                     case 2;
-                        $weatherType = "[[File:clouds.png]] <b>Clouds</b>";
+                        $weatherType = "[[File:clouds.png]] Clouds";
                         break;
                     case 3;
                         $weatherType = "<b>Fog</b>";
@@ -321,7 +321,7 @@ class ParserHelper_Forecast {
         // $dayUpdate = $dayUpdate + 1;
         $hexweatherdata = 0;
         $w_vanaDate = $w_vanaDate + 1;
-        if ( $w_vanaDate > 2160 ) $w_vanaDate =  $w_vanaDate - 2160;
+        if ( $w_vanaDate >= 2160 ) $w_vanaDate =  $w_vanaDate - 2160;
         //print_r($w_vanaDate .":".$m_vanaDate);
         $hexweatherdata = ParserHelper_Forecast::getWeatherHex($arr, $w_vanaDate);
         //print_r(count($weatherArray));

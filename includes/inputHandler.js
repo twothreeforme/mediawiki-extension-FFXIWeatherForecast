@@ -1,26 +1,55 @@
+// ref: https://stackoverflow.com/questions/10683712/html-table-sort
 
-/* Copy to Clipboard helper for ASBSearch */
+const table = document.querySelector('horizon-table general-table table-md special-weatherforecast-table  sortable'); //get the table to be sorted
+console.log('wiefhklshglkjsehgs', table);
 
-function copyURLToClipboard() {
-	url = document.location.href;
+// table.querySelectorAll('th') // get all the table header elements
+//   .forEach((element, columnNo)=>{ // add a click handler for each
+//     element.addEventListener('click', event => {
+//         sortTable(table, columnNo); //call a function which sorts the table by a given column number
+//     })
+//   })
 
-    navigator.clipboard.writeText(url).then(function() {
-        console.log('copyURLToClipboard(): Copied!');
-        mw.notify( 'Copied to Clipboard !', { autoHide: true,  type: 'warn' } ); 
-    }, function() {
-    	mw.notify( 'Error copying to clipboard. Please report on our Discord.', { autoHide: true,  type: 'error' } ); 
-        console.log('copyURLToClipboard(): Copy error');
-    });
-  };
+function sortTable(table, sortColumn){
+    // get the data from the table cells
+    const tableBody = table;
+    const tableData = table2data(tableBody);
+    // sort the extracted data
+    tableData.sort((a, b)=>{
+      if(a[sortColumn] > b[sortColumn]){
+        return 1;
+      }
+      return -1;
+    })
+    // put the sorted data back into the table
+    data2table(tableBody, tableData);
+  }
 
+// this function gets data from the rows and cells
+// within an html tbody element
+function table2data(tableBody){
+    const tableData = []; // create the array that'll hold the data rows
+    tableBody.querySelectorAll('tr')
+      .forEach(row=>{  // for each table row...
+        const rowData = [];  // make an array for that row
+        row.querySelectorAll('td')  // for each cell in that row
+          .forEach(cell=>{
+            rowData.push(cell.innerText);  // add it to the row data
+          })
+        tableData.push(rowData);  // add the full row to the table data
+      });
+    return tableData;
+  }
 
-  mw.loader.using( 'oojs-ui-core' ).done( function () {
-	$( function () {
-        // var btn = OO.ui.ButtonWidget.static.infuse( $( '#asbsearch-shareButton' ) );
-		// console.log(btn);
-        // btn.on( 'click', function () {
-		// 	copyURLToClipboard();
-		// } );
-
-    } );
-} );
+  // this function puts data into an html tbody element
+  function data2table(tableBody, tableData){
+    tableBody.querySelectorAll('tr') // for each table row...
+      .forEach((row, i)=>{
+        const rowData = tableData[i]; // get the array for the row data
+        row.querySelectorAll('td')  // for each table cell ...
+          .forEach((cell, j)=>{
+            cell.innerText = rowData[j]; // put the appropriate array element into the cell
+          })
+      });
+  }
+  sortTable(table, 1);
