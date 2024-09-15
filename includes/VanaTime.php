@@ -4,7 +4,7 @@ class VanaTime {
 
     private $elementalDay =     ["Firesday",    "Earthsday",        "Watersday",        "Windsday",         "Iceday",           "Lightningday",     "Lightsday",    "Darksday"];
     private $moonPhaseName =    ["New Moon",    "Waxing Crescent",  "First Quarter",    "Waxing Gibbous",   "Full Moon",        "Waning Gibbous",   "Last Quarter", "Waning Crescent"];
-    private $dayColor =         ["#FF0000",     "#AAAA00",          "#0000DD",           "#00AA22",         "#7799FF",          "#AA00AA",          "#AAAAAA",      "#333333"];
+    private $dayColor =         ["#FF0000",     "#80581C",          "#0000DD",           "#00AA22",         "#7799FF",          "#AA00AA",          "#FCF3E6",      "#333333"];
     private $moonIcon =         ["\u{1F311}",   "\u{1F312}",        "\u{1F313}",        "\u{1F314}",        "\u{1F315}",        "\u{1F316}",        "\u{1F317}",    "\u{1F318}"];
 
     private $VTIME_BIRTH = 1024844400000;
