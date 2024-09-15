@@ -37,6 +37,10 @@ class HTMLTableHelper {
 		return $html;
 	}
 
+    public static function buildWeatherTableRow_DayElement($day, $dayColor){
+        if ( $day == "Lightsday" ) return "<td style=\"text-align:center; text-shadow: -0.5px -0.5px 0 #262626, 0.5px -0.5px 0 #262626, -0.5px 0.5px 0 #262626, 0.5px 0.5px 0 #262626; color:" . $dayColor . "\" ><b>" .  $day . "</b></td>";
+        else return "<td style=\"text-align:center; color:" . $dayColor . "\" ><b>" . $day . "</b></td>" ;
+    }
 }
 
 ?>
