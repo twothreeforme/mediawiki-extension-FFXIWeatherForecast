@@ -46,8 +46,8 @@ class SpecialDiggingWeatherForecast extends SpecialPage {
                 $weekDayEle = $time->getWeekDayElement($key);
 
                 //print_r($time->dayColor($vt) . " ");
-                //$html .= "<tr><td>". $row['name'] ."</td><td style=\"text-align:center;\">$vanadays</td><td>" . $time->earthTime(null) . "</td><td style=\"text-align:center; color:" . $time->dayColor($vt) . "\" >" . $time->getWeekDayElement($key) .  "</td><td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
-                $html .= "<tr><td>". $name ."</td><td style=\"text-align:center;\">$vanadays</td>" . HTMLTableHelper::buildWeatherTableRow_DayElement($weekDayEle, $time->dayColor($vt)) .  "<td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
+                $html .= "<tr><td>". $row['name'] ."</td><td style=\"text-align:center;\">$vanadays</td><td>" . $time->earthTime($vt) . "</td><td style=\"text-align:center; color:" . $time->dayColor($vt) . "\" >" . $time->getWeekDayElement($key) .  "</td><td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
+                //$html .= "<tr><td>". $name ."</td><td style=\"text-align:center;\">$vanadays</td>" . HTMLTableHelper::buildWeatherTableRow_DayElement($weekDayEle, $time->dayColor($vt)) .  "<td style=\"text-align:center;\">" . $time->moonPhaseNameFrom($key) . "</td><td>". $day['normal']. "</td><td>". $day['common']. "</td><td>". $day['rare']. "</td>";
             }
         }
         //$time = null;

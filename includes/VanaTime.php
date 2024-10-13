@@ -75,6 +75,13 @@ class VanaTime {
         return (($earthTime - $this->VTIME_BASEDATE) / 60 * 25) + 886 * $this->VTIME_YEAR;
     }
 
+    public function _vTimeBeginningOfCurrentHour(){
+        $earthTime = floor( floor(microtime(true) * 1000)  / 1000 );
+        //$earthTime = ( $earthTime - ( $earthTime % (24 * 60  ) ));
+        $vt = (int)(($earthTime - $this->VTIME_BASEDATE) / 60 * 25) + 886 * $this->VTIME_YEAR;
+        return  ( $vt - ( $vt % ( 24 * 60)));
+    }
+
     /**
      *  Only used to calculate - getWeatherDate()
      *  Should not otherwise be used.
@@ -93,15 +100,15 @@ class VanaTime {
     }
 
     public function today_inMS(){ // result in earth Milliseconds
-        $now = $this->now_inEarthMS();
+        $now = ((898 * 360 + 30) * (24 * 60 * 60 * 1000)) + (floor(microtime(true)) - $this->VTIME_BIRTH) * $this->VMULTIPLIER;
         return ( $now - ( $now % (24 * 60 * 60 * 1000) ));
     }
 
-    public function now_inEarthMS(){
-        return ((898 * 360 + 30) * (24 * 60 * 60 * 1000)) + (floor(microtime(true)) - $this->VTIME_BIRTH) * $this->VMULTIPLIER;
-    }
+    // public function now_inEarthMS(){
+    //     return ((898 * 360 + 30) * (24 * 60 * 60 * 1000)) + (floor(microtime(true)) - $this->VTIME_BIRTH) * $this->VMULTIPLIER;
+    // }
 
-    public function now(){ return $this->now_inEarthMS() / ( 60 * 1000); }
+    // public function now(){ return $this->now_inEarthMS() / ( 60 * 1000); }
 
     public function getWeatherDate(){
         return intval((($this->_eTime() - $this->VTIME_BASEDATE) / 3456)) % 2160 ;
@@ -111,7 +118,7 @@ class VanaTime {
      *
      */
     public function getVanaTimeFromDaysAhead($daysAhead){
-        return (int)$this->_vTime() + ($daysAhead * $this->VTIME_DAY);
+        return (int)$this->_vTimeBeginningOfCurrentHour() + ($daysAhead * $this->VTIME_DAY); 
     }
 
     public function weekDayFrom($daysAhead){
@@ -182,19 +189,41 @@ class VanaTime {
     }
 
     public function earthTime($vanatime){
-        if ( !isset($vanatime) ) $vanatime = $this->now_inEarthMS();
-        $vanatime = $vanatime / ( $this->VMULTIPLIER );
+        if ( !isset($vanatime) ) $vanatime = $this->_vTime();
 
-        $vTempTime = $this->today_inMS() / (60 * 1000);
-        $vTempTime = $vTempTime * 60;
-        $vTempTime = floor($vTempTime / (25 / 1000)) - $this->difference;
+        /**
+         * Should be backwards from this
+         * $vanatime = (($earthTime - $this->VTIME_BASEDATE) / 60 * 25) + 886 * $this->VTIME_YEAR;
+         * $vanatime - (886 * $this->VTIME_YEAR) = (($earthTime - $this->VTIME_BASEDATE) / 60 ) * 25
+         * (( $vanatime - (886 * $this->VTIME_YEAR) ) / 25 ) = ($earthTime - $this->VTIME_BASEDATE) / 60
+         * ((( $vanatime - (886 * $this->VTIME_YEAR) ) / 25 ) * 60) = ($earthTime - $this->VTIME_BASEDATE)
+         * ((( $vanatime - (886 * $this->VTIME_YEAR) ) / 25 ) * 60) + $this->VTIME_BASEDATE = $earthTime
+         * 
+         * $earthTime = floor( floor(microtime(true) * 1000)  / 1000 );
+         * floor (floor ( (($vanatime - (886 * $this->VTIME_YEAR) ) / 25 * 60 + $this->VTIME_BASEDATE) * 1000) / 1000 )
+         * 
+         **/
+        
+         $et = floor( floor(microtime(true) * 1000)  / 1000 );
+         //$test =  (int)((($et - $this->VTIME_BASEDATE) / 60) * 25) + ( 886 * $this->VTIME_YEAR );
+         $test = ((( $vanatime - (886 * $this->VTIME_YEAR) ) / 25 ) * 60) + $this->VTIME_BASEDATE;
 
-        //print_r("<br/>" . $vTempTime . "  " . $vanatime);
+
+         //print_r("<br/>et: " . $et . " vt: " . $test);
+
+        // $vanatime = $vanatime / ( $this->VMULTIPLIER );
+        // $vTempTime = $this->today_inMS() / (60 * 1000);
+        // $vTempTime = $vTempTime * 60;
+        // $vTempTime = floor($vTempTime / (25 / 1000)) - $this->difference;
+        $vTempTime =   (int)(((($vanatime / $this->VTIME_YEAR) - 886 / 25 ) * 60 ) + $this->VTIME_BASEDATE) ;
+
+
+        //print_r("<br/>" . $vTempTime . "  " . (int)$vanatime);
 
         $this->getTimeZone();
         $dt = new DateTime("now", new DateTimeZone($_COOKIE['timezone']));
         //$dt->setTimestamp(floor((int)$vanatime) - ($this->vanaBirthday - $this->VTIME_BIRTH));
-        $dt->setTimestamp( $vTempTime );
+        $dt->setTimestamp( $test );
         return $dt->format("d-M-Y h:i A");
     }
 
