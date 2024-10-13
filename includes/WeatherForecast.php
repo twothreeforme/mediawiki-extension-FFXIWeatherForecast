@@ -148,7 +148,8 @@ class SpecialWeatherForecast extends SpecialPage {
                     // Add row to table
                     if ( $shouldAddDay != null && $shouldAddDay != 0){
                         $vt = $time->getVanaTimeFromDaysAhead($key);
-                        $vanadays = ( $key == 0 ) ? "0 (Today)" : $key;
+                        //$vanadays = ( $key == 0 ) ? "0 (Today)" : $key;
+                        $vanadays = $key;
 
                         $weekDayEle = $time->getWeekDayElement($key);
                         //if ( $weekDayEle == "Lightsday" ) $weekDayEle = "<td style=\"text-align:center; text-shadow: -0.5px -0.5px 0 #262626, 0.5px -0.5px 0 #262626, -0.5px 0.5px 0 #262626, 0.5px 0.5px 0 #262626; color:" . $time->dayColor($vt) . "\" ><b>" .  $weekDayEle . "</b></td>";

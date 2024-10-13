@@ -54,8 +54,8 @@ class DBConnection_Forecast {
 			->fetchResultSet();
     }
 
-    public function getWeather($forDiggeresPage){
-        $forDiggeresPage ? $forDiggeresPage : false;
+    public function getWeather($forDiggersPage){
+        $forDiggersPage ? $forDiggersPage : false;
 
         $dbr = new DBConnection_Forecast();
         $allZonesWeather = $dbr->getForecastFromDB();
@@ -69,7 +69,7 @@ class DBConnection_Forecast {
             $dayCount = 30;
             //check if on the diggers special page
             //should only include the weather for the zones listed in ExclusionsHelper_Forecast::$diggingRelevantZones
-            if ( $forDiggeresPage == true) {
+            if ( $forDiggersPage == true) {
                 if ( !array_key_exists($row->zoneid, ExclusionsHelper_Forecast::$diggingRelevantZones) ) continue;
                 $dayCount = 4;
             }
@@ -91,7 +91,7 @@ class DBConnection_Forecast {
             //print_r("<br />" . $row->zoneid . " " . $row->name);
         }
 
-        if ( $forDiggeresPage == false ) {
+        if ( $forDiggersPage == false ) {
             $allzones= array(
                 'name' => ' ** Search All Zones ** ',
                 'pagelinkname' => 'searchallzones',

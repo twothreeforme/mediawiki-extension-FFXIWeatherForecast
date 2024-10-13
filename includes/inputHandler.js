@@ -1,31 +1,28 @@
-// ref: https://dev.to/speaklouder/how-to-apply-sorting-on-tables-in-html-using-javascript-sortable-paginated-tables-590g
-
-function sortTable(columnIndex) {
-    let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("special-weatherforecast-table");
-    switching = true;
-
-    while (switching) {
-      switching = false;
-      rows = table.rows;
-
-      for (i = 1; i < rows.length - 1; i++) {
-        shouldSwitch = false;
-        x = rows[i].getElementsByTagName("td")[columnIndex];
-        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-
-      if (shouldSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-      }
-    }
+// https://stackoverflow.com/questions/55462632/javascript-sort-table-column-on-click
+function compareValues(a, b) {
+ 
+  return (a<b) ? -1 : (a>b) ? 1 : 0;
 }
 
+function sortTable(colnum) {
+  let table = document.getElementById("special-weatherforecast-table");
+  let tbody = table.querySelector(`tbody`);
+  
+  let rows = Array.from(table.querySelectorAll(`tr`));
+  rows = rows.slice(1);
+  let qs = `td:nth-child(${colnum})`;
+
+  rows.sort( (r1,r2) => {
+    let t1 = r1.querySelector(qs);
+    let t2 = r2.querySelector(qs);
+    return compareValues(Number(t1.textContent),Number(t2.textContent));
+  });
+
+  rows.forEach(function(row){
+    //console.log(row.cells[1].innerHTML);
+    if ( row.cells[1].innerHTML == "0" ) row.cells[1].innerHTML = "Today";
+    tbody.appendChild(row);
+  });
+}
 //console.log('here');
-sortTable(1);
+sortTable(2);

@@ -41,7 +41,8 @@ class SpecialDiggingWeatherForecast extends SpecialPage {
                 if ( $show == false ) continue;
 
                 $vt = $time->getVanaTimeFromDaysAhead($key);
-                $vanadays = ( $key == 0 ) ? "0 (Today)" : $key;
+                //$vanadays = ( $key == 0 ) ? "0 (Today)" : $key;
+                $vanadays = $key;
                 $name = ParserHelper_Forecast::zoneName($row['name']);
                 $weekDayEle = $time->getWeekDayElement($key);
 

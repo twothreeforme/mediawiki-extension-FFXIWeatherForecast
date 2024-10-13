@@ -13,9 +13,7 @@ class HTMLTableHelper {
 		<table id=\"special-weatherforecast-table\" class=\"horizon-table general-table table-md special-weatherforecast-table  sortable\">
             <tr><th>Zone Name</th>
 			<th>Vana Days</th>
-            
             <th>Earth Time</th>
-
             <th>Day's Element</th>
             <th>Moon Phase</th>
 			<th>Normal (50%)</th>
