@@ -39,7 +39,7 @@
 			"localBasePath": "includes/",
 			"remoteExtPath": "WeatherForecast/includes/",
 			"packageFiles": [
-				"inputHandler.js"
+				"WeatherForecastHelper.js"
 			],
             "dependencies": [
 				"oojs-ui-core"
