@@ -224,7 +224,7 @@ class VanaTime {
         $dt = new DateTime("now", new DateTimeZone($_COOKIE['timezone']));
         //$dt->setTimestamp(floor((int)$vanatime) - ($this->vanaBirthday - $this->VTIME_BIRTH));
         $dt->setTimestamp( $test );
-        return $dt->format("d-M-Y h:i A");
+        return $dt->format("d-M h:i A");
     }
 
 
